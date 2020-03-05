@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<!-- 
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+</nav> -->
+   
+    
+    <!-- Links -->    
+    <div class="d-flex bg-secondary">
+        <div class="p-2 bg-warning">  <!-- Brand/logo -->
+           <a class="navbar-brand" href="{% url 'Home' %}">XYZ</a>
+       </div>
+        <div class="p-2 ml-auto bg-warning">
+                <p>
+                {% if user.is_authenticated %}
+                Hi : {{ user.username }}
+                {%  endif %}
+                </p>
+         </div>
+         <div class="p-2 bg-warning"><h2>Home Page</h2></div>
+         <div class="p-2 bg-warning"> <a class="nav-link" href="{% url 'logout' %}">Logout</a></div>
+        <!-- <div class="p-2 ml-auto bg-warning"> <a class="nav-link" href="{% url 'CreateTicket' %}">New Ticket</a></div> -->
+      </div>
+
+
+{% endblock header %}
+
+{% block content %}
+
+  <div class="container p-3 my-3 bg-dark text-white">
+    <div class="alert alert-danger">
+        <p>
+            Are You Sure To Delete : <strong> {{ object.subject }}</strong> 
+        </p> 
+      </div>
+
+    <hr>
+    <form action="" method="POST">
+        {% csrf_token %}
+        
+    <button type="submit" class="btn btn-danger" value="ticket_delete">Delete</button>
+
+    </form>
+</div>
+
+{% endblock content %}

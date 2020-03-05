@@ -1,0 +1,49 @@
+{%  extends 'base.html' %}
+
+{% block header %}
+<!-- 
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+</nav> -->
+   
+    
+    <!-- Links -->    
+    <div class="d-flex bg-secondary">
+        <div class="p-2 bg-warning">  <!-- Brand/logo -->
+           <a class="navbar-brand" href="{% url 'Home' %}">XYZ</a>
+       </div>
+        <div class="p-2 ml-auto bg-warning">
+                <p>
+                {% if user.is_authenticated %}
+                Hi : {{ user.username }}
+                {%  endif %}
+                </p>
+         </div>
+         <div class="p-2 bg-warning"><h2>Home Page</h2></div>
+         <div class="p-2 bg-warning"> <a class="nav-link" href="{% url 'logout' %}">Logout</a></div>
+        <!-- <div class="p-2 ml-auto bg-warning"> <a class="nav-link" href="{% url 'CreateTicket' %}">New Ticket</a></div> -->
+      </div>
+
+
+{% endblock header %}
+
+{%  block content %}
+
+<div>
+    <hr>
+</div>
+
+<!-- Ticket  Form-->
+
+<div class="container p-3 my-3 bg-dark text-white">
+    <h2>Update The Ticket </h2>
+    <hr>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+    <button type="submit" class="btn btn-success" value="ticket_submit">Submit</button>
+
+    </form>
+</div>
+
+
+{% endblock content %}

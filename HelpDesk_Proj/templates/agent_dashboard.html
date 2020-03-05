@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+
+{% block header %}
+{% if user.is_authenticated and user.is_staff %}
+
+<!-- 
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+</nav> -->
+   
+    
+    <!-- Links -->    
+    <div class="d-flex bg-secondary">
+        <div class="p-2 bg-warning">  <!-- Brand/logo -->
+           <a class="navbar-brand" href="{% url 'Home' %}">XYZ</a>
+       </div>
+        
+        <div class="p-2  ml-auto bg-warning">
+                <p>
+                
+                Hi : {{ user.username }}
+                
+                </p>
+         </div>
+         <div class="p-2 bg-warning"><h2>Agent Portal</h2></div>
+         <div class="p-2 bg-warning"> <a class="nav-link" href="{% url 'logout' %}">Logout</a></div>
+        <!-- <div class="p-2 ml-auto bg-warning"> <a class="nav-link" href="{% url 'CreateTicket' %}">New Ticket</a></div> -->
+      </div>
+
+
+      {%  endif %}
+{% endblock header %}
+
+
+{% block content %}
+{% if user.is_authenticated and user.is_staff %}
+ 
+<div class="row">
+
+  <div class="col"><br>
+                  <h2 class="text-danger"> Unaccepted Tickets </h2><hr>
+            {% for each in unaccepted_tickets reversed %}
+                {% if each.status == 0 %}
+
+            <div class="card bg-light">
+              <div class="card-body">
+                <h4 class="card-title">{{ each.subject }} || By : {{ each.userName }}</h4>
+                <p class="card-text">{{ each.description }} </p>
+                <p class="card-text"> Status  : {% if each.status == 1 %}
+                    Resolved
+                    {% elif each.status == 0 %}
+                    Requested
+                    {% elif each.status == 2 %}
+                    Pending
+                    {% endif %}
+
+                </p>
+                <!-- <a href="{% url 'AcceptTicket'  %}"  class="card-link"> </a> -->
+                <form action="../acceptedTickets/" method="GET">
+                  <button  type="submit" name="ticketId"  value ={{each.id}}> Accept</button>
+                </form>
+
+                <!-- <a href="#" class="card-link"><button>Reject</button></a> -->
+              
+              </div>
+            </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+
+  </div>
+
+  <div class="col"><br>
+                  <h2 class="text-warning"> Pending Tickets </h2><hr>
+                  {% for each in unaccepted_tickets reversed %}
+                      {% if each.status == 2 %}
+                  
+                  <div class="card bg-light">
+                    <div class="card-body">
+                      <h4 class="card-title">{{ each.subject }} || By : {{ each.userName }}</h4>
+                      <p class="card-text">{{ each.description }} </p>
+                      <p class="card-text"> Status  : {% if each.status == 1 %}
+                          Resolved
+                          {% elif each.status == 0 %}
+                          Requested
+                          {% elif each.status == 2 %}
+                          Pending
+                          {% endif %}
+                  
+                      </p>
+                      <!-- <a href="{% url 'AcceptTicket'  %}"  class="card-link"> </a> -->
+                      <form action="../resolveTickets/" method="GET">
+                        <button  type="submit" name="ticketId"  value ={{each.id}}> Resolve</button>
+                      </form>
+                  
+                      <!-- <a href="#" class="card-link"><button>Reject</button></a> -->
+                    
+                    </div>
+                  </div>
+                  
+                      {% endif %}
+                  
+                  {% endfor %}
+        
+  </div>
+
+  <div class="col"><br>
+                <h2 class="text-success">Accepted Tickets </h2><hr>
+
+                <!-- {% for each in unaccepted_tickets reversed %}
+                {% if each.status == 1 %}
+                
+                  {% for each_new in accepted_tickets reversed %}
+                
+                
+                    {% if each.id == each_new.ticket_id %}
+                
+                
+                    <div class="card bg-light">
+                      <div class="card-body">
+                        <h4 class="card-title">{{ each_new.ticket.subject }} || Accepted By : {{ each_new.acceptedBy }}</h4>
+                      </div>
+                    </div>
+                
+                    {% endif %}
+                
+                  {% endfor %}
+                
+                {% endif %}
+                
+                {% endfor %} -->
+                
+                {% for each in accepted_tickets reversed %}
+                <div class="card bg-light">
+                  <div class="card-body">
+                    <h4 class="card-title">{{ each.ticket.subject }} || Accepted By : {{ each.acceptedBy }}</h4>
+                  </div>
+                </div>
+                
+                {% endfor %}
+                
+                
+                
+                {%  endif %}
+      
+
+  </div>
+</div> 
+
+
+{% endblock content %}
